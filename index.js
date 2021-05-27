@@ -8,7 +8,6 @@ const getBooks = () => {
     .then((res) => res.json())
     .then((books) => {
       books.data.map((book) => {
-        debugger;
         const bookMarkup = `
           <div dataId=${book.id}>
             <img src=${book.attributes.imgUrl} height="200" width="200">
