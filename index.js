@@ -39,16 +39,21 @@ const createFormHandler = (e) => {
     genre: value.genre,
     imgUrl: value.image,
     status: value.status,
-    author_id: value.authors,
+    author_id: parseInt(value.authors),
   };
+  postFetch(body)
 
+  
+};
+
+const postFetch = (formData) => {
   fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify(formData),
   })
     .then((res) => res.json())
     .then((data) => {
@@ -65,5 +70,5 @@ const createFormHandler = (e) => {
       document.querySelector("#book-container").innerHTML += bookMarkup;
     })
     .catch((errors) => console.log(errors));
-};
+}
 
