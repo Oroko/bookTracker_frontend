@@ -12,6 +12,7 @@ const getBooks = () => {
   fetch(url)
     .then((res) => res.json())
     .then((books) => {
+      console.log(books)
       books.data.map((book) => {
         const bookMarkup = `
           <div dataId=${book.id}>
