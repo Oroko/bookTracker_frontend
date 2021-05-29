@@ -5,25 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
   createBookForm.addEventListener("submit", (e) => {
     createFormHandler(e);
   });
-  
 });
 
 const getBooks = () => {
   fetch(url)
     .then((res) => res.json())
     .then((books) => {
-      console.log(books)
+      //console.log(books);
       books.data.map((book) => {
-        const bookMarkup = `
-          <div dataId=${book.id}>
-            <img src=${book.attributes.imgUrl} height="200" width="200">
-            <h3>${book.attributes.title}</h3>
-            
-            <button dataId=${book.id}>Delete</button>
-          </div>
-          <br><br>
-        `;
-        document.querySelector("#book-container").innerHTML += bookMarkup;
+        render(book);
       });
     })
     .catch((error) => console.log(error));
@@ -32,8 +22,9 @@ const getBooks = () => {
 const createFormHandler = (e) => {
   e.preventDefault();
   const data = new FormData(e.target);
+
   const value = Object.fromEntries(data.entries());
-  //console.log({ value });
+  console.log({ value });
 
   const body = {
     title: value.title,
@@ -42,9 +33,7 @@ const createFormHandler = (e) => {
     status: value.status,
     author_id: parseInt(value.authors),
   };
-  postFetch(body)
-
-  
+  postFetch(body);
 };
 
 const postFetch = (formData) => {
@@ -57,19 +46,31 @@ const postFetch = (formData) => {
     body: JSON.stringify(formData),
   })
     .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
+    .then((book) => {
+      //console.log(book);
       const bookMarkup = `
-          <div dataId=${data.id}>
-            <img src=${data.imgUrl} height="200" width="200">
-            <h3>${data.title}</h3>
+          <div data-id=${book.id}>
+            <img src=${book.imgUrl} height="200" width="200">
+            <h3>${book.title}</h3>
             
-            <button dataId=${data.id}>Delete</button>
+            <button data-id=${book.id}>Delete</button>
           </div>
           <br><br>
         `;
       document.querySelector("#book-container").innerHTML += bookMarkup;
     })
     .catch((errors) => console.log(errors));
-}
+};
 
+const render = (book) => {
+  const bookMarkup = `
+          <div data-id=${book.id}>
+            <img src=${book.attributes.imgUrl} height="200" width="200">
+            <h3>${book.attributes.title}</h3>
+            
+            <button data-id=${book.id}>Delete</button>
+          </div>
+          <br><br>
+        `;
+  document.querySelector("#book-container").innerHTML += bookMarkup;
+};
