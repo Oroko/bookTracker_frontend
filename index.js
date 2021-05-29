@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   createBookForm.addEventListener("submit", (e) => {
     createFormHandler(e);
   });
+  
 });
 
 const getBooks = () => {
@@ -15,9 +16,9 @@ const getBooks = () => {
         const bookMarkup = `
           <div dataId=${book.id}>
             <img src=${book.attributes.imgUrl} height="200" width="200">
-            <h3>${book.attributes.title}
+            <h3>${book.attributes.title}</h3>
             
-            <button dataId=${book.id}>edit</button>
+            <button dataId=${book.id}>Delete</button>
           </div>
           <br><br>
         `;
@@ -29,29 +30,40 @@ const getBooks = () => {
 
 const createFormHandler = (e) => {
   e.preventDefault();
-  const data = new FormData(e.target)
-  const value = Object.fromEntries(data.entries())
-  console.log({value})
+  const data = new FormData(e.target);
+  const value = Object.fromEntries(data.entries());
+  //console.log({ value });
+
+  const body = {
+    title: value.title,
+    genre: value.genre,
+    imgUrl: value.image,
+    status: value.status,
+    author_id: value.authors,
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const bookMarkup = `
+          <div dataId=${data.id}>
+            <img src=${data.imgUrl} height="200" width="200">
+            <h3>${data.title}</h3>
+            
+            <button dataId=${data.id}>Delete</button>
+          </div>
+          <br><br>
+        `;
+      document.querySelector("#book-container").innerHTML += bookMarkup;
+    })
+    .catch((errors) => console.log(errors));
 };
 
-// {
-// "data": [
-// {
-// "id": "1",
-// "type": "book",
-// "attributes": {
-// "title": "The Alchemist",
-// "genre": null,
-// "imgUrl": null,
-// "status": null,
-// "author_id": 1
-// },
-// "relationships": {
-// "author": {
-// "data": {
-// "id": "1",
-// "type": "author"
-// }
-// }
-// }
-// },
