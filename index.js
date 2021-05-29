@@ -1,6 +1,10 @@
 const url = "http://localhost:3000/api/v1/books";
 document.addEventListener("DOMContentLoaded", () => {
   getBooks();
+  const createBookForm = document.querySelector("#create-book");
+  createBookForm.addEventListener("submit", (e) => {
+    createFormHandler(e);
+  });
 });
 
 const getBooks = () => {
@@ -21,6 +25,13 @@ const getBooks = () => {
       });
     })
     .catch((error) => console.log(error));
+};
+
+const createFormHandler = (e) => {
+  e.preventDefault();
+  const data = new FormData(e.target)
+  const value = Object.fromEntries(data.entries())
+  console.log({value})
 };
 
 // {
