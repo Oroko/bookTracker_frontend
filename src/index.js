@@ -20,8 +20,9 @@ const getBooks = () => {
         // };
 
         let newBook = new Book(book, book.attributes);
-        
-        document.querySelector("#book-container").innerHTML += newBook.renderBook()
+
+        document.querySelector("#book-container").innerHTML +=
+          newBook.renderBook();
       });
     })
     .catch((error) => console.log(error));
@@ -37,11 +38,9 @@ const createFormHandler = (e) => {
   const title = document.querySelector("#input-title").value;
   const genre = document.querySelector("#input-genre").value;
   const imgUrl = document.querySelector("#input-image-url").value;
-  console.log(imgUrl)
+  console.log(imgUrl);
   const status = document.querySelector('input[name="status"]:checked').value;
   const author_id = parseInt(document.querySelector("#authors").value);
-
- 
 
   postFetch(title, genre, imgUrl, status, author_id);
 };
@@ -63,11 +62,9 @@ const postFetch = (title, genre, image_url, status, author_id) => {
   })
     .then((res) => res.json())
     .then((book) => {
-     
-
-      
-      document.querySelector("#book-container").innerHTML += newBook.renderBook()
+      let newBook = new Book(book, book.attributes);
+      document.querySelector("#book-container").innerHTML +=
+        newBook.renderBook();
     })
     .catch((errors) => console.log(errors));
 };
-
