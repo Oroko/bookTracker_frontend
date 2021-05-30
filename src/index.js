@@ -11,18 +11,9 @@ const getBooks = () => {
   fetch(url)
     .then((res) => res.json())
     .then((books) => {
-      console.log(books);
+      //console.log(books);
       books.data.map((book) => {
-        // const bookData = {
-        //   id: book.id,
-        //   imgUrl: book.attributes.imgUrl,
-        //   title: book.attributes.title,
-        // };
-
-        let newBook = new Book(book, book.attributes);
-
-        document.querySelector("#book-container").innerHTML +=
-          newBook.renderBook();
+        render(book);
       });
     })
     .catch((error) => console.log(error));
@@ -30,41 +21,56 @@ const getBooks = () => {
 
 const createFormHandler = (e) => {
   e.preventDefault();
-  // const data = new FormData(e.target);
+  const data = new FormData(e.target);
 
-  // const value = Object.fromEntries(data.entries());
-  // console.log({ value });
+  const value = Object.fromEntries(data.entries());
+  console.log({ value });
 
-  const title = document.querySelector("#input-title").value;
-  const genre = document.querySelector("#input-genre").value;
-  const imgUrl = document.querySelector("#input-image-url").value;
-  console.log(imgUrl);
-  const status = document.querySelector('input[name="status"]:checked').value;
-  const author_id = parseInt(document.querySelector("#authors").value);
-
-  postFetch(title, genre, imgUrl, status, author_id);
+  const body = {
+    title: value.title,
+    genre: value.genre,
+    imgUrl: value.image,
+    status: value.status,
+    author_id: parseInt(value.authors),
+  };
+  postFetch(body);
 };
 
-const postFetch = (title, genre, image_url, status, author_id) => {
+const postFetch = (formData) => {
   fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({
-      title: title,
-      genre: genre,
-      imgUrl: image_url,
-      status: status,
-      author_id: author_id,
-    }),
+    body: JSON.stringify(formData),
   })
     .then((res) => res.json())
     .then((book) => {
-      let newBook = new Book(book, book.attributes);
-      document.querySelector("#book-container").innerHTML +=
-        newBook.renderBook();
+      //console.log(book);
+      const bookMarkup = `
+          <div data-id=${book.id}>
+            <img src=${book.imgUrl} height="200" width="200">
+            <h3>${book.title}</h3>
+            
+            <button data-id=${book.id}>Delete</button>
+          </div>
+          <br><br>
+        `;
+      document.querySelector("#book-container").innerHTML += bookMarkup;
     })
     .catch((errors) => console.log(errors));
+};
+
+const render = (book) => {
+  const bookMarkup = `
+          <div data-id=${book.id}>
+            <img src=${book.attributes.imgUrl} height="200" width="200">
+            <h3>${book.attributes.title}</h3>
+            
+            <button data-id=${book.id}>Delete</button>
+          </div>
+          <br><br>
+        `;
+  document.querySelector("#book-container").innerHTML += bookMarkup;
 };
