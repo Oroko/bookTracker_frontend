@@ -13,12 +13,15 @@ const getBooks = () => {
     .then((books) => {
       console.log(books);
       books.data.map((book) => {
-        const bookData = {
-          id: book.id,
-          imgUrl: book.attributes.imgUrl,
-          title: book.attributes.title,
-        };
-        render(bookData);
+        // const bookData = {
+        //   id: book.id,
+        //   imgUrl: book.attributes.imgUrl,
+        //   title: book.attributes.title,
+        // };
+
+        let newBook = new Book(book, book.attributes);
+        
+        document.querySelector("#book-container").innerHTML += newBook.renderBook()
       });
     })
     .catch((error) => console.log(error));
@@ -38,13 +41,7 @@ const createFormHandler = (e) => {
   const status = document.querySelector('input[name="status"]:checked').value;
   const author_id = parseInt(document.querySelector("#authors").value);
 
-  // const body = {
-  //   title: title,
-  //   genre: genre,
-  //   imgUrl: image,
-  //   status: status,
-  //   author_id: author_id
-  // };
+ 
 
   postFetch(title, genre, imgUrl, status, author_id);
 };
@@ -66,33 +63,11 @@ const postFetch = (title, genre, image_url, status, author_id) => {
   })
     .then((res) => res.json())
     .then((book) => {
-      console.log(book);
-      // const bookMarkup = `
-      //     <div data-id=${book.id}>
-      //       <img src=${book.imgUrl} height="200" width="200">
-      //       <h3>${book.title}</h3>
+     
 
-      //       <button data-id=${book.id}>Delete</button>
-      //     </div>
-      //     <br><br>
-      //   `;
-
-      render(book);
-      //document.querySelector("#book-container").innerHTML += bookMarkup;
+      
+      document.querySelector("#book-container").innerHTML += newBook.renderBook()
     })
     .catch((errors) => console.log(errors));
 };
 
-const render = (book) => {
-  console.log('from render function', book)
-  const bookMarkup = `
-          <div data-id=${book.id}>
-            <img src=${book.imgUrl} height="200" width="200">
-            <h3>${book.title}</h3>
-            
-            <button data-id=${book.id}>Delete</button>
-          </div>
-          <br><br>
-        `;
-  document.querySelector("#book-container").innerHTML += bookMarkup;
-};
