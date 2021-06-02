@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   createBookForm.addEventListener("submit", (e) => {
     createFormHandler(e);
   });
+
+  
 });
 
 const getBooks = () => {
@@ -17,6 +19,8 @@ const getBooks = () => {
 
         document.querySelector("#book-container").innerHTML +=
           newBook.renderBook();
+        
+          
       });
     })
     .catch((error) => console.log(error));
@@ -27,7 +31,6 @@ const createFormHandler = (e) => {
   const data = new FormData(e.target);
 
   const value = Object.fromEntries(data.entries());
-  //console.log({ value });
 
   const body = {
     title: value.title,
@@ -50,32 +53,26 @@ const postFetch = (formData) => {
   })
     .then((res) => res.json())
     .then((book) => {
-      //console.log(book);
-      // const bookMarkup = `
-      //     <div data-id=${book.id}>
-      //       <img src=${book.imgUrl} height="200" width="200">
-      //       <h3>${book.title}</h3>
-
-      //       <button data-id=${book.id}>Delete</button>
-      //     </div>
-      //     <br><br>
-      //   `;
-
       let newBook = new Book(book, book);
-      document.querySelector("#book-container").innerHTML += newBook.renderBook();
+      document.querySelector("#book-container").innerHTML +=
+        newBook.renderBook();
     })
     .catch((errors) => console.log(errors));
 };
 
-// const render = (book) => {
-//   const bookMarkup = `
-//           <div data-id=${book.id}>
-//             <img src=${book.attributes.imgUrl} height="200" width="200">
-//             <h3>${book.attributes.title}</h3>
+document.addEventListener('click', (e) => {
+  const id = e.target.dataset.id;
+  if(e.target.classList.contains('delete-button')){
+    
+    e.target.parentNode.remove()
+  }
 
-//             <button data-id=${book.id}>Delete</button>
-//           </div>
-//           <br><br>
-//         `;
-//   document.querySelector("#book-container").innerHTML += bookMarkup;
-// };
+  fetch(url +'/'+id, {
+     method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          
+  })
