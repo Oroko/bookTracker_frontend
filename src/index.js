@@ -1,12 +1,11 @@
 const url = "http://localhost:3000/api/v1/books";
 document.addEventListener("DOMContentLoaded", () => {
   getBooks();
+
   const createBookForm = document.querySelector("#create-book");
   createBookForm.addEventListener("submit", (e) => {
     createFormHandler(e);
   });
-
-  
 });
 
 const getBooks = () => {
@@ -19,8 +18,6 @@ const getBooks = () => {
 
         document.querySelector("#book-container").innerHTML +=
           newBook.renderBook();
-        
-          
       });
     })
     .catch((error) => console.log(error));
@@ -40,6 +37,7 @@ const createFormHandler = (e) => {
     author_id: parseInt(value.authors),
   };
   postFetch(body);
+  data = ""
 };
 
 const postFetch = (formData) => {
@@ -60,19 +58,32 @@ const postFetch = (formData) => {
     .catch((errors) => console.log(errors));
 };
 
-document.addEventListener('click', (e) => {
+document.addEventListener("click", (e) => {
   const id = e.target.dataset.id;
-  if(e.target.classList.contains('delete-button')){
-    
-    e.target.parentNode.remove()
+  if (e.target.classList.contains("delete-button")) {
+    e.target.parentNode.remove();
   }
 
-  fetch(url +'/'+id, {
-     method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          
-  })
+  fetch(url + "/" + id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+});
+
+
+
+const toggleForm = () => {
+  const form = document.querySelector("#form-container");
+  
+  if (form.style.display === "none") {
+    form.style.display = "block";
+    
+    
+  } else {
+    form.style.display = "none";
+    
+  }
+};
+

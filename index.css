@@ -1,0 +1,54 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  
+  display: flex;
+  flex-direction: column;
+  
+ 
+  
+  
+  
+}
+h1 {
+   text-align: center;
+}
+#toggle {
+   text-align: center;
+   margin: 20px auto;
+   
+}
+#container {
+  margin: auto;
+  width: 800px;
+  
+}
+#form-container{
+  align-items: center;
+  margin: 20px auto;
+ 
+  width: 600px;
+}
+.book-div{
+  margin-top: 20px;
+  text-align: center;
+  
+  
+}
+#book-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 20px;
+  flex-wrap: wrap; 
+  
+}
+
+label {
+  margin-bottom: 20px;
+}
+
+
