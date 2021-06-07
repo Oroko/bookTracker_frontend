@@ -1,7 +1,6 @@
 const url = "http://localhost:3000/api/v1/books";
 document.addEventListener("DOMContentLoaded", () => {
   getBooks();
-  
 
   const createBookForm = document.querySelector("#create-book");
   createBookForm.addEventListener("submit", (e) => {
@@ -38,7 +37,6 @@ const createFormHandler = (e) => {
     author_id: parseInt(value.authors),
   };
   postFetch(body);
-  data = "";
 };
 
 const postFetch = (formData) => {
@@ -61,11 +59,12 @@ const postFetch = (formData) => {
 
 document.addEventListener("click", (e) => {
   const id = e.target.dataset.id;
+  
   if (e.target.classList.contains("delete-button")) {
     e.target.parentNode.remove();
   }
 
-  fetch(url + "/" + id, {
+  fetch(`${url}/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
