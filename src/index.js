@@ -14,6 +14,7 @@ const getBooks = () => {
     .then((books) => {
       //console.log(books);
       books.data.map((book) => {
+        //console.log(book)
         let newBook = new Book(book, book.attributes);
 
         document.querySelector("#book-container").innerHTML +=
@@ -59,7 +60,7 @@ const postFetch = (formData) => {
 
 document.addEventListener("click", (e) => {
   const id = e.target.dataset.id;
-  
+
   if (e.target.classList.contains("delete-button")) {
     e.target.parentNode.remove();
   }
