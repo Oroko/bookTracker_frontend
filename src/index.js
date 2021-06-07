@@ -1,6 +1,7 @@
 const url = "http://localhost:3000/api/v1/books";
 document.addEventListener("DOMContentLoaded", () => {
   getBooks();
+  
 
   const createBookForm = document.querySelector("#create-book");
   createBookForm.addEventListener("submit", (e) => {
@@ -37,7 +38,7 @@ const createFormHandler = (e) => {
     author_id: parseInt(value.authors),
   };
   postFetch(body);
-  data = ""
+  data = "";
 };
 
 const postFetch = (formData) => {
@@ -72,18 +73,12 @@ document.addEventListener("click", (e) => {
   }).then((res) => res.json());
 });
 
-
-
 const toggleForm = () => {
   const form = document.querySelector("#form-container");
-  
+
   if (form.style.display === "none") {
     form.style.display = "block";
-    
-    
   } else {
     form.style.display = "none";
-    
   }
 };
-

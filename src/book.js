@@ -24,19 +24,17 @@ class Book {
    <br><br>
    `;
   }
-  removeBook = () => {
-    
-      
-        fetch(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((book) => console.log(book));
-    
-    
-  };
+  // removeBook = () => {
+
+  //       fetch(url, {
+  //         method: "DELETE",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       })
+  //         .then((res) => res.json())
+  //         .then((book) => console.log(book));
+
+  // };
 }
 Book.all = [];
