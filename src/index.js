@@ -8,12 +8,41 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+const removeStopWords = (word) => {
+  let stopWords = ["the", "is"];
+  stopWords.forEach((stopWord) => {
+    stopWord = stopWord.toLowerCase();
+    let tempWord = word.toLowerCase();
+    if (tempWord.startsWith(stopWord)) {
+      word = tempWord.replace(stopWord, "").trim();
+    }
+  });
+  //console.log(word.toLowerCase());
+  return word.toLowerCase();
+};
+
+const compareByTitle = (a, b) => {
+  let firstTitle = removeStopWords(a.attributes.title);
+  let secondTitle = removeStopWords(b.attributes.title);
+
+  if (firstTitle > secondTitle) {
+    return 1;
+  } else if (firstTitle < secondTitle) {
+    return -1;
+  } else {
+    return 0;
+  }
+};
+
 const getBooks = () => {
   fetch(url)
     .then((res) => res.json())
     .then((books) => {
-      //console.log(books);
-      books.data.map((book) => {
+      // array of objects books
+
+      books.data.sort(compareByTitle).reverse();
+
+      books.data.forEach((book) => {
         //console.log(book)
         let newBook = new Book(book, book.attributes);
 
@@ -51,9 +80,12 @@ const postFetch = (formData) => {
   })
     .then((res) => res.json())
     .then((book) => {
-      let newBook = new Book(book, book);
-      document.querySelector("#book-container").innerHTML +=
-        newBook.renderBook();
+      // let newBook = new Book(book, book);
+      // document.querySelector("#book-container").innerHTML +=
+      //   newBook.renderBook();
+      if (book) {
+        location = location.href;
+      }
     })
     .catch((errors) => console.log(errors));
 };
